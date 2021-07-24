@@ -1,38 +1,38 @@
-abstract class IWpTermFormatterFailure implements Exception {
+abstract class IHomeFormatterFailure implements Exception {
   final String? message;
-  IWpTermFormatterFailure({this.message});
+  IHomeFormatterFailure({this.message});
 }
 
-class MapperErrorActivityError implements IWpTermFormatterFailure {
+class MapperErrorActivityError implements IHomeFormatterFailure {
   final String? message;
   MapperErrorActivityError({this.message});
 
   @override
-  String toString() => 'IWpTermFormatterFailure(message: $message)';
+  String toString() => 'IHomeFormatterFailure(message: $message)';
 
 
 }
 
-class NotValidCodeParam implements IWpTermFormatterFailure {
+class NotValidCodeParam implements IHomeFormatterFailure {
   final String? message;
   NotValidCodeParam({this.message});
 
   @override
-  String toString() => 'IWpTermFormatterFailure(message: $message)';
+  String toString() => 'IHomeFormatterFailure(message: $message)';
 }
 
-class WpTermFormatterDatasourceError implements IWpTermFormatterFailure {
+class HomeFormatterDatasourceError implements IHomeFormatterFailure {
   final String? message;
-  WpTermFormatterDatasourceError({this.message});
+  HomeFormatterDatasourceError({this.message});
 
   @override
-  String toString() => 'WpTermFormatterDatasourceError(message: $message)';
+  String toString() => 'HomeFormatterDatasourceError(message: $message)';
 }
 
-class WpTermFormatterTypeError implements IWpTermFormatterFailure {
+class HomeFormatterTypeError implements IHomeFormatterFailure {
   final String? message;
-  WpTermFormatterTypeError({this.message});
+  HomeFormatterTypeError({this.message});
 
   @override
-  String toString() => 'WpTermFormatterTypeError(message: $message)';
+  String toString() => 'HomeFormatterTypeError(message: $message)';
 }
