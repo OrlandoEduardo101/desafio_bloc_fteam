@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'presenter/animes_list_cubit.dart';
+
 import 'presenter/home_page.dart';
 
 class HomeModule extends Module {

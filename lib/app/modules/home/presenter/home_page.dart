@@ -1,9 +1,8 @@
-import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/list_animes_entity.dart';
-import 'package:desafio_bloc_fteam/app/modules/shared/overlay/custom_overlay.dart';
-import 'package:desafio_bloc_fteam/app/modules/shared/overlay/loading_dialog_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../shared/overlay/loading_dialog_content.dart';
+import '../domain/entities/response/list_animes_entity.dart';
 import '../service_locator.dart';
 import 'animes_list_cubit.dart';
 import 'states/animes_states.dart';
@@ -17,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   //final GetAnimesListCubit controller = Modular.get();
   final ScrollController _scrollController = ScrollController();
   late GetAnimesListCubit controller;
+  List<ListAnimesEntity> listPage = [];
 
   @override
   void initState() {
@@ -60,25 +60,33 @@ class _HomePageState extends State<HomePage> {
             LoadingDialogContent().hide();
           }
 
-          final List<ListAnimesEntity>? list =  state is AnimesSucces ? state.listAnimes.listAnimes : [];
-          return list!.isEmpty ? Container() : ListView.builder(
-            itemCount: (list.length) + 1,
-            controller: _scrollController,
-            physics: AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              if (index == (list.length)) {
-                controller.getListAnimes(currentList: list);
-                return Container();
-              }
-              final ListAnimesEntity? anime = list[index];
+          final List<ListAnimesEntity>? list =
+              state is AnimesSucces ? state.listAnimes.listAnimes : listPage;
+          listPage = list!;
+          return listPage.isEmpty
+              ? Container()
+              : ListView.builder(
+                  itemCount: (list.length) + 1,
+                  controller: _scrollController,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
 
-              return ListTile(
-                title: Text('${anime?.id}: ${anime?.title?.rendered}'),
-                subtitle: Text('${anime?.guid?.rendered}'),
-              );
-            },
-          );
+                    if (index == (list.length) && !(state is AnimesLoading)) {
+                      controller.getListAnimes(currentList: list);
+                      return Container();
+                    } else if (index == (list.length) && state is AnimesLoading) {
+                      return Container();
+                    }
+                    
+                    final ListAnimesEntity? anime = list[index];
+
+                    return ListTile(
+                      title: Text('${anime?.id}: ${anime?.title?.rendered}'),
+                      subtitle: Text('${anime?.guid?.rendered}'),
+                    );
+                  },
+                );
         },
       ),
     );

@@ -4,7 +4,6 @@ import 'package:desafio_bloc_fteam/app/modules/home/domain/errors/errors/errors.
 import 'package:desafio_bloc_fteam/app/modules/home/domain/repository/i_get_list_animes_repository.dart';
 import 'package:desafio_bloc_fteam/app/modules/home/infra/datasources/i_get_list_animes_datasource.dart';
 import 'package:desafio_bloc_fteam/app/modules/home/infra/repositories/get_list_animes_repository.dart';
-import 'package:desafio_bloc_fteam/app/modules/shared/utils/either/custom_either.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

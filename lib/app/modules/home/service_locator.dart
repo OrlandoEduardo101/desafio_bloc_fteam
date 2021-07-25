@@ -1,11 +1,11 @@
-import 'package:desafio_bloc_fteam/app/modules/home/domain/repository/i_get_list_animes_repository.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/infra/datasources/i_get_list_animes_datasource.dart';
-import 'package:desafio_bloc_fteam/app/modules/shared/constants/api_endpoints.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import '../shared/constants/api_endpoints.dart';
+import 'domain/repository/i_get_list_animes_repository.dart';
 import 'domain/usecases/get_list_animes.dart';
 import 'external/datasources/get_list_animes_datasource.dart';
+import 'infra/datasources/i_get_list_animes_datasource.dart';
 import 'infra/repositories/get_list_animes_repository.dart';
 import 'presenter/animes_list_cubit.dart';
 
