@@ -2,7 +2,7 @@ class GetAnimesListParam {
   final int page;
   final int perPage;
 
-  GetAnimesListParam({this.page = 1, this.perPage = 10});
+  GetAnimesListParam({this.page = 1, this.perPage = 15});
 
   GetAnimesListParam copyWith({
     int? page,

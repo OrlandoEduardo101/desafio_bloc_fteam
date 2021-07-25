@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/author_entity.dart';
 import 'package:desafio_bloc_fteam/app/modules/home/domain/errors/errors/errors.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/external/mappers/response/author_formatter.dart';
+import 'package:desafio_bloc_fteam/app/modules/home/external/formatters/response/author_formatter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../shared/jsons/jsons.dart';
 

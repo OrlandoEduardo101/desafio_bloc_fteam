@@ -5,12 +5,12 @@ import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/lin
 import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/predecessor_version_entity.dart';
 import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/version_history_entity.dart';
 import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/wp_term_entity.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/external/mappers/response/about_formatter.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/external/mappers/response/author_formatter.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/external/mappers/response/cury_formatter.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/external/mappers/response/version_history_formatter.dart';
-import '../../../../shared/contracts/i_mapper.dart';
+import 'package:desafio_bloc_fteam/app/modules/home/external/formatters/response/version_history_formatter.dart';
+import 'package:desafio_bloc_fteam/app/modules/shared/contracts/i_mapper.dart';
 import '../../../domain/errors/errors/errors.dart';
+import 'about_formatter.dart';
+import 'author_formatter.dart';
+import 'cury_formatter.dart';
 import 'predecessor_version_formatter.dart';
 import 'wp_term_formatter.dart';
 
