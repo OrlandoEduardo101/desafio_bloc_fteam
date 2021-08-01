@@ -7,7 +7,7 @@ import 'states/animes_states.dart';
 
 class GetAnimesListCubit extends Cubit<IAnimesState> {
   GetAnimesListCubit(this._getListAnimes) : super(AnimesStart()) {
-    mapEventToState();
+    //mapEventToState();
   }
 
   final IGetListAnimes _getListAnimes;
@@ -24,7 +24,7 @@ class GetAnimesListCubit extends Cubit<IAnimesState> {
 
     result.fold(onFailure: (failure) {
       emit(AnimesError(failure));
-      emit(AnimesSucces(listAnimes: currentList));
+      //emit(AnimesSucces(listAnimes: currentList));
     }, onSuccess: (success) {
       emit(AnimesSucces(listAnimes: currentList + (success.listAnimes ?? [])));
       page++;

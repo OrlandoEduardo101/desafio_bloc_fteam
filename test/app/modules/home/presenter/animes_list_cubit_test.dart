@@ -10,40 +10,68 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class UsecaseMock extends Mock implements IGetListAnimes {}
-class MockAnimesCubit extends MockCubit<IAnimesState> implements GetAnimesListCubit {}
-
 
 void main() {
-  final usecase = UsecaseMock();
-  final cubit = GetAnimesListCubit(usecase);
+  late IGetListAnimes usecase;
+  late GetAnimesListCubit cubit;
 
   setUpAll(() {
+    usecase = UsecaseMock();
+    cubit = GetAnimesListCubit(usecase);
     registerFallbackValue(GetAnimesListParam());
   });
 
-  test('must return states in the correct order', () {
-    when(() => usecase.call(any())).thenAnswer((_) async =>
-        SuccessResponse<IHomeFormatterFailure, ListAnimesResponse>(
-            ListAnimesResponse()));
+  
 
-    expect(
-        cubit,
-        emitsInOrder([
+  blocTest<GetAnimesListCubit, IAnimesState>(
+      "must return states in the correct order",
+      build: () {
+        when(() => usecase.call(any())).thenAnswer(
+            (_) async => SuccessResponse(ListAnimesResponse(listAnimes: [])));
+
+        return cubit;
+      },
+      act: (cubit) => cubit.mapEventToState(),
+      expect: () => [
           isA<AnimesLoading>(),
           isA<AnimesSucces>(),
-        ]));
-  });
+      ]);
 
-  test('deve retornarum erro', () {
-    when(() => usecase.call(any())).thenAnswer((_) async =>
-        FailureResponse<IHomeFormatterFailure, ListAnimesResponse>(
-            NotValidCodeParam()));
+  blocTest<GetAnimesListCubit, IAnimesState>(
+      "must return a error",
+      build: () {
+        when(() => usecase.call(any()))
+        .thenAnswer((_) async => FailureResponse(NotValidCodeParam()));
 
-    expect(
-        cubit,
-        emitsInOrder([
+        return cubit;
+      },
+      act: (cubit) => cubit.mapEventToState(),
+      expect: () => [
           isA<AnimesLoading>(),
           isA<AnimesError>(),
-        ]));
-  });
+      ]);
+
+  // test('must return states in the correct order', () {
+  //   when(() => usecase.call(any())).thenAnswer(
+  //       (_) async => SuccessResponse(ListAnimesResponse(listAnimes: [])));
+  //   expect(
+  //       cubit.stream,
+  //       emitsInOrder([
+  //         isA<AnimesLoading>(),
+  //         isA<AnimesSucces>(),
+  //       ]));
+  //   //cubit.emit(AnimesSucces());
+  // });
+
+  // test( "must return a error", () {
+  //   when(() => usecase.call(any()))
+  //       .thenAnswer((_) async => FailureResponse(NotValidCodeParam()));
+
+  //   expect(
+  //       cubit.mapEventToState(),
+  //       emitsInOrder([
+  //         isA<AnimesLoading>(),
+  //         isA<AnimesError>(),
+  //       ]));
+  // });
 }
