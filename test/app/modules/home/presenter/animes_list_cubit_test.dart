@@ -43,7 +43,7 @@ void main() {
         when(() => usecase.call(any()))
         .thenAnswer((_) async => FailureResponse(NotValidCodeParam()));
 
-        return cubit;
+        return GetAnimesListCubit(usecase);
       },
       act: (cubit) => cubit.mapEventToState(),
       expect: () => [
