@@ -1,15 +1,19 @@
-import 'package:desafio_bloc_fteam/app/modules/home/domain/entities/response/list_animes_response.dart';
-import 'package:desafio_bloc_fteam/app/modules/home/domain/errors/errors/errors.dart';
+import '../../domain/entities/response/list_animes_entity.dart';
+import '../../domain/errors/errors/errors.dart';
 
 abstract class IAnimesState {}
 
 class AnimesSucces implements IAnimesState {
-  final ListAnimesResponse listAnimes;
+  List<ListAnimesEntity> listAnimes;
 
-  AnimesSucces(this.listAnimes);
+  AnimesSucces({this.listAnimes = const []});
 }
 
-class AnimesStart implements IAnimesState {}
+class AnimesStart implements IAnimesState {
+  List<ListAnimesEntity> listAnimes;
+
+  AnimesStart({this.listAnimes = const []});
+}
 
 class AnimesLoading implements IAnimesState {}
 

@@ -1,10 +1,11 @@
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../../shared/overlay/loading_dialog_content.dart';
 import '../domain/entities/response/list_animes_entity.dart';
 import '../service_locator.dart';
-import 'animes_list_cubit.dart';
+import 'animes_list_bloc.dart';
 import 'states/animes_states.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,18 +16,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //final GetAnimesListCubit controller = Modular.get();
   final ScrollController _scrollController = ScrollController();
-  late GetAnimesListCubit controller;
+  late GetAnimesListBloc controller;
   List<ListAnimesEntity> listPage = [];
+  int page = 1;
 
   @override
   void initState() {
     super.initState();
     ServiceLocator.init();
-    controller = getIt.get<GetAnimesListCubit>();
+    controller = getIt.get<GetAnimesListBloc>();
+    controller.add(page);
+
+    ///controller.mapEventToState(page);
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        // controller.getListAnimes();
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent * 0.99) {
+        page++;
+        controller.add(page++);
       }
     });
   }
@@ -42,9 +48,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Animes List")),
-      body: BlocBuilder<GetAnimesListCubit, IAnimesState>(
-        bloc: controller,
-        builder: (context, state) {
+      body: StreamBuilder<IAnimesState>(
+        stream: controller.stream,
+        builder: (context, snapshot) {
+          final state = controller.state;
+
           if (state is AnimesError) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Center(
@@ -61,29 +69,28 @@ class _HomePageState extends State<HomePage> {
           }
 
           final List<ListAnimesEntity>? list =
-              state is AnimesSucces ? state.listAnimes.listAnimes : listPage;
+              state is AnimesSucces ? (state).listAnimes : listPage;
           listPage = list!;
           return listPage.isEmpty
               ? Container()
               : ListView.builder(
-                  itemCount: (list.length) + 1,
+                  itemCount: (list.length),
                   controller: _scrollController,
                   physics: AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-
-                    if (index == (list.length) && !(state is AnimesLoading)) {
-                      controller.getListAnimes(currentList: list);
-                      return Container();
-                    } else if (index == (list.length) && state is AnimesLoading) {
-                      return Container();
-                    }
-                    
                     final ListAnimesEntity? anime = list[index];
 
                     return ListTile(
                       title: Text('${anime?.id}: ${anime?.title?.rendered}'),
                       subtitle: Text('${anime?.guid?.rendered}'),
+                      onTap: () {
+                        asuka.showDialog(builder: (context) => Dialog(
+                          child: Container(
+                            child: SingleChildScrollView(child: Html(data: anime?.content?.rendered)),
+                          ),
+                        ));
+                      },
                     );
                   },
                 );

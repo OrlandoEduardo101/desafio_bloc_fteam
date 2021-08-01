@@ -7,6 +7,7 @@ import 'domain/usecases/get_list_animes.dart';
 import 'external/datasources/get_list_animes_datasource.dart';
 import 'infra/datasources/i_get_list_animes_datasource.dart';
 import 'infra/repositories/get_list_animes_repository.dart';
+import 'presenter/animes_list_bloc.dart';
 import 'presenter/animes_list_cubit.dart';
 
 GetIt getIt = GetIt.instance;
@@ -31,6 +32,7 @@ class ServiceLocator {
     
     //presenter
     getIt.registerSingleton<GetAnimesListCubit>(GetAnimesListCubit(getIt.get<IGetListAnimes>()));
+    getIt.registerSingleton<GetAnimesListBloc>(GetAnimesListBloc(getIt.get<IGetListAnimes>()));
     
   }
 }
