@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent * 0.99) {
-        page++;
+        //page++;
         controller.add(page++);
       }
     });
@@ -53,12 +53,14 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           final state = controller.state;
 
-          if (state is AnimesError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Center(
-              child: Text('${state.erro.message}'),
-            )));
-          }
+          // if (state is AnimesError) {
+          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //       content: Center(
+          //     child: Text('${state.erro.message}'),
+          //   )));
+          // } setstate called during build
+
+
 
           if (state is AnimesLoading) {
             LoadingDialogContent().show(
@@ -66,6 +68,28 @@ class _HomePageState extends State<HomePage> {
             );
           } else {
             LoadingDialogContent().hide();
+      
+          }
+          if (state is AnimesError) {
+            LoadingDialogContent().show(
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('${state.erro.message}'),
+                    ElevatedButton(onPressed: () {
+                      LoadingDialogContent().hide();
+                      controller.add(page);
+                    }, child: Text('Try again'))
+                  ],
+                ),
+                ),
+              ),
+            );
           }
 
           final List<ListAnimesEntity>? list =

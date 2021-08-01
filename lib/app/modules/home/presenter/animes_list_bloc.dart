@@ -27,8 +27,8 @@ class GetAnimesListBloc extends Bloc<int, IAnimesState> {
         onSuccess: (success) =>
             AnimesSucces(listAnimes: currentList + (success.listAnimes ?? [])));
 
-    if (state is AnimesError) {
-      yield AnimesSucces(listAnimes: currentList);
-    }
+    // if (state is AnimesError) {
+    //   yield AnimesSucces(listAnimes: currentList);
+    // }
   }
 }
